@@ -23,7 +23,6 @@ public class AudioAlarm implements Alarm {
     @Override
     public void playAudio() {
         try {
-            clip.start();
             clip.setMicrosecondPosition(0);
             clip.start();
         } catch (Exception e) {
@@ -41,10 +40,5 @@ public class AudioAlarm implements Alarm {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
-    }
-
-    public static void main(String[] args) {
-        AudioAlarm audioAlarm = new AudioAlarm();
-        audioAlarm.playAudio();
     }
 }
