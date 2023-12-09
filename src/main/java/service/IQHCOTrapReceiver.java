@@ -15,7 +15,6 @@ public class IQHCOTrapReceiver extends AbstractSnmpTrapReceiver {
                     if (oidMessage.startsWith(input, oid.length())) {
                         System.out.println(oid + " " + alarmOids.get(oid));
                         System.out.println(input + " " + inputs.get(input));
-                        alarm.playAudio();
                         ui.setAlarmState(Color.RED, inputs.get(input), alarmOids.get(oid));
                     }
                 }
