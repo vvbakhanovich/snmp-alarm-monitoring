@@ -7,10 +7,11 @@ import java.io.File;
 
 public class AudioAlarm implements Alarm {
     private final Clip clip;
+    private String filePath = "src/main/resources/alarm.wav";
 
     public AudioAlarm() {
         try {
-            File alarm = new File("src/main/resources/alarm.wav");
+            File alarm = new File(filePath);
             AudioInputStream stream = AudioSystem.getAudioInputStream(alarm);
             clip = AudioSystem.getClip();
             clip.open(stream);
@@ -18,6 +19,7 @@ public class AudioAlarm implements Alarm {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public void playAudio() {
         try {
@@ -28,7 +30,6 @@ public class AudioAlarm implements Alarm {
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public void stopAudio() {
         try {
@@ -36,6 +37,10 @@ public class AudioAlarm implements Alarm {
         } catch (Exception e) {
            throw new RuntimeException(e);
         }
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public static void main(String[] args) {
