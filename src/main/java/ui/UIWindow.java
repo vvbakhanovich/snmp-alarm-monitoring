@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -67,18 +69,19 @@ public class UIWindow extends JFrame implements ActionListener {
         mybutton.setBackground(color);
     }
 
-    public static void main(String[] args) {
-
-        new UIWindow(List.of("1", "2", "3", "4", "5"));
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton) {
             JButton o = (JButton) e.getSource();
             o.setBackground(null);
-            System.out.println(o.getText());
+            System.out.printf("Ошибка на канале %s подтверждена в %s%n", o.getText(),
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy")));
         }
+    }
+
+    public static void main(String[] args) {
+
+        new UIWindow(List.of("1", "2", "3", "4", "5"));
     }
 
 }
