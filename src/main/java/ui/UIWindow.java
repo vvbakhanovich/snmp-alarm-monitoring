@@ -51,7 +51,7 @@ public class UIWindow extends JFrame implements ActionListener {
         logArea.setLineWrap(true);
 
         JScrollPane scrollPane = new JScrollPane(logArea);
-        scrollPane.setPreferredSize(new Dimension(410,500));
+        scrollPane.setPreferredSize(new Dimension(410, 600));
 
         setTitle("SNMP Alarm Manager");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
