@@ -7,11 +7,11 @@ import java.io.File;
 
 public class AudioAlarm implements Alarm {
     private final Clip clip;
-    private String filePath = "src/main/resources/alarm.wav";
+    private String filePath = System.getProperty("user.dir");
 
     public AudioAlarm() {
         try {
-            File alarm = new File(filePath);
+            File alarm = new File(filePath, "alarm/alarm.wav");
             AudioInputStream stream = AudioSystem.getAudioInputStream(alarm);
             clip = AudioSystem.getClip();
             clip.open(stream);

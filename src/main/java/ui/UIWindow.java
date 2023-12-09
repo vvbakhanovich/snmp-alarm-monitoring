@@ -90,6 +90,7 @@ public class UIWindow extends JFrame implements ActionListener {
     public static void main(String[] args) {
 
         new UIWindow(List.of("Test +1", "Test +2", "Test MSK", "TEST TEST +4", "5"));
+        System.out.println(System.getProperty("user.dir"));
     }
 
 }
