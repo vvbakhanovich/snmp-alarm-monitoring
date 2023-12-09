@@ -1,87 +1,89 @@
 package ui;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static util.Constants.formatter;
+
 public class UIWindow extends JFrame implements ActionListener {
 
+    private static final Logger log = LoggerFactory.getLogger(UIWindow.class);
+
     JButton button;
+    JTextArea logArea;
     Map<String, JButton> buttons = new HashMap<>();
+
     public UIWindow(Collection<String> buttonNames) {
 
-//       GridLayout layout = new GridLayout(4, 2);
-//       JLabel audioLoss = new JLabel("Audio Loss");
-//       JLabel audioLevel = new JLabel("Audio Level");
-//       JLabel black = new JLabel("Black");
-//       audioLoss.setVerticalTextPosition(JLabel.TOP);
-//       audioLevel.setVerticalTextPosition(JLabel.BOTTOM);
-//       black.setVerticalTextPosition(JLabel.CENTER);
-//       black.setFont(new Font("MV Boli", Font.PLAIN, 20));
-//       black.setBounds(100,100,100,100);
-
-
-//       getContentPane().add(audioLoss);
-//       getContentPane().add(audioLevel);
-//       getContentPane().add(black);
-//       getContentPane().add(new JLabel("FREEZE"));
-
-//        button = new JButton();
-//        button.setBounds(200, 100, 400, 200);
-////        button.setSize(400, 200);
-//        button.setText("Test");
-//        button.setFocusable(false);
-//
-//        setTitle("MultiViewer Alarm Receiver");
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setPreferredSize(new Dimension(1200, 600));
-////       setSize(500,500);
-////       setResizable(true);
-//        setVisible(true);
-//        add(button);
-////       add(black);
-//       setLayout(null);
-//        pack();
-
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(500, 500);
-        setLayout(new GridLayout(buttonNames.size(), 1, 0, 10));
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setPreferredSize(new Dimension(250, 500));
+        buttonsPanel.setLayout(new GridLayout(buttonNames.size(), 1, 10, 10));
 
         for (String buttonName : buttonNames) {
             button = new JButton(buttonName);
             button.addActionListener(this);
-            add(button);
+            button.setBackground(Color.LIGHT_GRAY);
+            button.setFocusable(false);
+            button.setFont(new Font("Comic Sans", Font.BOLD, 25));
+            button.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+            buttonsPanel.add(button);
             buttons.put(buttonName, button);
         }
 
+        logArea = new JTextArea(35, 30);
+        logArea.setEditable(false);
+        logArea.setAutoscrolls(true);
+        logArea.setVisible(true);
+        logArea.setLineWrap(true);
+
+        JScrollPane scrollPane = new JScrollPane(logArea);
+        scrollPane.setPreferredSize(new Dimension(410,500));
+
+        setTitle("SNMP Alarm Manager");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(700, 800);
+        setLayout(new BorderLayout(20, 20));
+        add(buttonsPanel, BorderLayout.WEST);
+        add(scrollPane, BorderLayout.EAST);
         setVisible(true);
+        setBackground(Color.LIGHT_GRAY);
+        setResizable(false);
+        pack();
     }
 
-    public void setAlarmState(Color color, String name) {
-        JButton mybutton = buttons.get(name);
-        mybutton.setBackground(color);
+    public void setAlarmState(Color color, String name, String message) {
+        JButton alarmButton = buttons.get(name);
+        alarmButton.setBackground(color);
+        logArea.append(message + " на " + name + " в " + LocalDateTime.now().format(formatter));
+        log.info(message + " на " + name);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton) {
-            JButton o = (JButton) e.getSource();
-            o.setBackground(null);
-            System.out.printf("Ошибка на канале %s подтверждена в %s%n", o.getText(),
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy")));
+            JButton pressedButton = (JButton) e.getSource();
+            pressedButton.setBackground(Color.LIGHT_GRAY);
+            logArea.append(String.format("Ошибка на канале %s подтверждена в %s%n", pressedButton.getText(),
+                    LocalDateTime.now().format(formatter)));
+            log.info("Ошибка на канале {} подтверждена", pressedButton.getText());
         }
     }
 
     public static void main(String[] args) {
 
-        new UIWindow(List.of("1", "2", "3", "4", "5"));
+        new UIWindow(List.of("Test +1", "Test +2", "Test MSK", "TEST TEST +4", "5"));
     }
 
 }
