@@ -25,11 +25,10 @@ public abstract class AbstractSnmpTrapReceiver implements CommandResponder {
     private Snmp snmp;
     protected final Map<String, String> alarmOids;
     protected final Map<String, String> inputs;
-    protected final Alarm alarm;
+
 
 
     public AbstractSnmpTrapReceiver() {
-        alarm = new AudioAlarm();
         alarmOids = new HashMap<>();
         inputs = new HashMap<>();
 

@@ -1,6 +1,8 @@
 package ui;
 
 
+import alarm.Alarm;
+import alarm.AudioAlarm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,18 +23,18 @@ public class UIWindow extends JFrame implements ActionListener {
 
     private static final Logger log = LoggerFactory.getLogger(UIWindow.class);
 
-    JButton button;
-    JTextArea logArea;
-    Map<String, JButton> buttons = new HashMap<>();
+    private final Alarm alarm;
+    private final JTextArea logArea;
+    private final Map<String, JButton> buttons = new HashMap<>();
 
     public UIWindow(Collection<String> buttonNames) {
-
+        alarm = new AudioAlarm();
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setPreferredSize(new Dimension(250, 500));
         buttonsPanel.setLayout(new GridLayout(buttonNames.size(), 1, 10, 10));
 
         for (String buttonName : buttonNames) {
-            button = new JButton(buttonName);
+            JButton button = new JButton(buttonName);
             button.addActionListener(this);
             button.setBackground(Color.LIGHT_GRAY);
             button.setFocusable(false);
@@ -64,6 +66,7 @@ public class UIWindow extends JFrame implements ActionListener {
     }
 
     public void setAlarmState(Color color, String name, String message) {
+        alarm.playAudio();
         JButton alarmButton = buttons.get(name);
         alarmButton.setBackground(color);
         logArea.append(message + " на " + name + " в " + LocalDateTime.now().format(formatter));
