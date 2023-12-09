@@ -32,6 +32,7 @@ public class UIWindow extends JFrame implements ActionListener {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setPreferredSize(new Dimension(250, 500));
         buttonsPanel.setLayout(new GridLayout(buttonNames.size(), 1, 10, 10));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         for (String buttonName : buttonNames) {
             JButton button = new JButton(buttonName);
@@ -49,13 +50,15 @@ public class UIWindow extends JFrame implements ActionListener {
         logArea.setAutoscrolls(true);
         logArea.setVisible(true);
         logArea.setLineWrap(true);
+        logArea.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
         JScrollPane scrollPane = new JScrollPane(logArea);
-        scrollPane.setPreferredSize(new Dimension(410, 600));
+        scrollPane.setPreferredSize(new Dimension(416, 600));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         setTitle("SNMP Alarm Manager");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(700, 800);
+        setPreferredSize(new Dimension(670, 700));
         setLayout(new BorderLayout(20, 20));
         add(buttonsPanel, BorderLayout.WEST);
         add(scrollPane, BorderLayout.EAST);
@@ -78,8 +81,8 @@ public class UIWindow extends JFrame implements ActionListener {
         if (e.getSource() instanceof JButton) {
             JButton pressedButton = (JButton) e.getSource();
             pressedButton.setBackground(Color.LIGHT_GRAY);
-            logArea.append(String.format("Ошибка на канале %s подтверждена в %s%n", pressedButton.getText(),
-                    LocalDateTime.now().format(formatter)));
+            logArea.append(String.format("%s - Ошибка на канале %s подтверждена\n",
+                    LocalDateTime.now().format(formatter), pressedButton.getText()));
             log.info("Ошибка на канале {} подтверждена", pressedButton.getText());
         }
     }
