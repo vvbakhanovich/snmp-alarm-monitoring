@@ -37,8 +37,6 @@ public class SnmpTrapReceiver implements CommandResponder {
 
     @Override
     public void processPdu(CommandResponderEvent event) {
-        StringBuffer msg = new StringBuffer();
-        msg.append(event.toString());
         List<? extends VariableBinding> varBinds = event.getPDU()
                 .getVariableBindings();
         if (varBinds != null && !varBinds.isEmpty()) {
