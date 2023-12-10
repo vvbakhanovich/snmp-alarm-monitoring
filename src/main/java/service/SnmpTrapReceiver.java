@@ -11,9 +11,10 @@ import org.snmp4j.util.MultiThreadedMessageDispatcher;
 import org.snmp4j.util.ThreadPool;
 import ui.AlarmWindow;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
+
+import static util.Constants.*;
 
 public class SnmpTrapReceiver implements CommandResponder {
 
@@ -55,7 +56,7 @@ public class SnmpTrapReceiver implements CommandResponder {
                     if (oidMessage.startsWith(input, oid.length())) {
                         System.out.println(oid + " " + conf.getAlarmOids().get(oid));
                         System.out.println(input + " " + conf.getInputs().get(input));
-                        ui.setAlarmState(Color.RED, conf.getInputs().get(input), conf.getAlarmOids().get(oid));
+                        ui.setAlarmState(alarmColor, conf.getInputs().get(input), conf.getAlarmOids().get(oid));
                     }
                 }
             }
