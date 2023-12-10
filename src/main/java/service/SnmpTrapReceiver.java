@@ -14,18 +14,16 @@ import ui.AlarmWindow;
 import java.io.IOException;
 import java.util.List;
 
-import static util.Constants.*;
-
 public class SnmpTrapReceiver implements CommandResponder {
 
-    private final AlarmWindow ui;
     private Snmp snmp;
-    protected final OidConfiguration conf;
+    private final OidConfiguration conf;
+    private final VarBindProcessor processor;
 
 
-    public SnmpTrapReceiver(OidConfiguration conf, AlarmWindow ui) {
+    public SnmpTrapReceiver(OidConfiguration conf, VarBindProcessor processor) {
         this.conf = conf;
-        this.ui = ui;
+        this.processor = processor;
     }
 
     public void run() {
@@ -44,22 +42,7 @@ public class SnmpTrapReceiver implements CommandResponder {
         List<? extends VariableBinding> varBinds = event.getPDU()
                 .getVariableBindings();
         if (varBinds != null && !varBinds.isEmpty()) {
-            processVarBinds(varBinds, msg);
-        }
-    }
-
-    private void processVarBinds(List<? extends VariableBinding> varBinds, StringBuffer msg) {
-        String oidMessage = varBinds.get(7).toString();
-        for (String oid : conf.getAlarmOids().keySet()) {
-            if (oidMessage.contains(oid)) {
-                for (String input : conf.getInputs().keySet()) {
-                    if (oidMessage.startsWith(input, oid.length())) {
-                        System.out.println(oid + " " + conf.getAlarmOids().get(oid));
-                        System.out.println(input + " " + conf.getInputs().get(input));
-                        ui.setAlarmState(alarmColor, conf.getInputs().get(input), conf.getAlarmOids().get(oid));
-                    }
-                }
-            }
+            processor.processVarBinds(varBinds, conf);
         }
     }
 
