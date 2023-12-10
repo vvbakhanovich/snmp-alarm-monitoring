@@ -14,12 +14,11 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static util.Constants.formatter;
 
-public class UIWindow extends JFrame implements ActionListener {
+public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
 
     private static final Logger log = LoggerFactory.getLogger(UIWindow.class);
 
@@ -68,6 +67,7 @@ public class UIWindow extends JFrame implements ActionListener {
         pack();
     }
 
+    @Override
     public void setAlarmState(Color color, String name, String message) {
         alarm.playAudio();
         JButton alarmButton = buttons.get(name);
@@ -86,11 +86,4 @@ public class UIWindow extends JFrame implements ActionListener {
             log.info("Ошибка на канале {} подтверждена", pressedButton.getText());
         }
     }
-
-    public static void main(String[] args) {
-
-        new UIWindow(List.of("Test +1", "Test +2", "Test MSK", "TEST TEST +4", "5"));
-        System.out.println(System.getProperty("user.dir"));
-    }
-
 }
