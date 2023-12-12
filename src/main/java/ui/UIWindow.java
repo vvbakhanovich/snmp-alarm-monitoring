@@ -2,7 +2,6 @@ package ui;
 
 
 import alarm.Alarm;
-import alarm.AudioAlarm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import static util.Constants.CONFIG_DIR;
 import static util.Constants.formatter;
 
 public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
@@ -64,6 +64,8 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
         setVisible(true);
         setBackground(Color.LIGHT_GRAY);
         setResizable(false);
+        ImageIcon icon = new ImageIcon(CONFIG_DIR + "/icon.jpg");
+        setIconImage(icon.getImage());
         pack();
     }
 
