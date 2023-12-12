@@ -7,11 +7,10 @@ import java.io.File;
 
 public class AudioAlarm implements Alarm {
     private final Clip clip;
-    private String filePath = System.getProperty("user.dir");
 
-    public AudioAlarm() {
+    public AudioAlarm(String alarmPath) {
         try {
-            File alarm = new File(filePath, "alarm/alarm.wav");
+            File alarm = new File(System.getProperty("user.dir"), alarmPath);
             AudioInputStream stream = AudioSystem.getAudioInputStream(alarm);
             clip = AudioSystem.getClip();
             clip.open(stream);
@@ -36,9 +35,5 @@ public class AudioAlarm implements Alarm {
         } catch (Exception e) {
            throw new RuntimeException(e);
         }
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
     }
 }
