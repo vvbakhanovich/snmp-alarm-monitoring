@@ -5,9 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.snmp4j.smi.VariableBinding;
 import ui.AlarmWindow;
-import util.Constants;
 
 import java.util.List;
+
+import static util.Constants.ALARM_COLOR;
 
 public class IQHCOAlarmProcessor implements VarBindProcessor {
     private final Logger logger = LoggerFactory.getLogger(IQHCOAlarmProcessor.class);
@@ -27,7 +28,7 @@ public class IQHCOAlarmProcessor implements VarBindProcessor {
                 logger.debug("OID совпал с {}", oid);
                 for (String input : conf.getInputs(ip).keySet()) {
                     if (oidMessage.startsWith(input, oid.length())) {
-                        ui.setAlarmState(Constants.alarmColor, conf.getInputs(ip).get(input), conf.getAlarmOids().get(oid));
+                        ui.setAlarmState(ALARM_COLOR, conf.getInputs(ip).get(input), conf.getAlarmOids().get(oid));
                     }
                 }
             }
