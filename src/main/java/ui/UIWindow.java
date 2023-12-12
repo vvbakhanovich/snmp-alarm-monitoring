@@ -26,8 +26,8 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
     private final JTextArea logArea;
     private final Map<String, JButton> buttons = new HashMap<>();
 
-    public UIWindow(Collection<String> buttonNames) {
-        alarm = new AudioAlarm();
+    public UIWindow(Collection<String> buttonNames, Alarm alarm) {
+        this.alarm = alarm;
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setPreferredSize(new Dimension(250, 500));
         buttonsPanel.setLayout(new GridLayout(buttonNames.size(), 1, 10, 10));
@@ -68,12 +68,12 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
     }
 
     @Override
-    public void setAlarmState(Color color, String name, String message) {
+    public void setAlarmState(Color color, String buttonName, String alarmMessage) {
         alarm.playAudio();
-        JButton alarmButton = buttons.get(name);
+        JButton alarmButton = buttons.get(buttonName);
         alarmButton.setBackground(color);
-        logArea.append(message + " на " + name + " в " + LocalDateTime.now().format(formatter));
-        log.info(message + " на " + name);
+        logArea.append(String.format("%s - %s на %s\n", LocalDateTime.now().format(formatter), alarmMessage, buttonName));
+        log.info(alarmMessage + " на " + buttonName);
     }
 
     @Override
@@ -81,6 +81,7 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
         if (e.getSource() instanceof JButton) {
             JButton pressedButton = (JButton) e.getSource();
             pressedButton.setBackground(Color.LIGHT_GRAY);
+            alarm.stopAudio();
             logArea.append(String.format("%s - Ошибка на канале %s подтверждена\n",
                     LocalDateTime.now().format(formatter), pressedButton.getText()));
             log.info("Ошибка на канале {} подтверждена", pressedButton.getText());
