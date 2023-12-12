@@ -15,8 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static util.Constants.CONFIG_DIR;
-import static util.Constants.formatter;
+import static util.Constants.*;
 
 public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
 
@@ -74,7 +73,7 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
         alarm.playAudio();
         JButton alarmButton = buttons.get(buttonName);
         alarmButton.setBackground(color);
-        logArea.append(String.format("%s - %s на %s\n", LocalDateTime.now().format(formatter), alarmMessage, buttonName));
+        logArea.append(String.format("%s - %s на %s\n", LocalDateTime.now().format(FORMATTER), alarmMessage, buttonName));
         log.info(alarmMessage + " на " + buttonName);
     }
 
@@ -82,11 +81,13 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton) {
             JButton pressedButton = (JButton) e.getSource();
-            pressedButton.setBackground(Color.LIGHT_GRAY);
-            alarm.stopAudio();
-            logArea.append(String.format("%s - Ошибка на канале %s подтверждена\n",
-                    LocalDateTime.now().format(formatter), pressedButton.getText()));
-            log.info("Ошибка на канале {} подтверждена", pressedButton.getText());
+            if (pressedButton.getBackground().equals(ALARM_COLOR)) {
+                pressedButton.setBackground(OK_COLOR);
+                alarm.stopAudio();
+                logArea.append(String.format("%s - Ошибка на канале %s подтверждена\n",
+                        LocalDateTime.now().format(FORMATTER), pressedButton.getText()));
+                log.info("Ошибка на канале {} подтверждена", pressedButton.getText());
+            }
         }
     }
 }
