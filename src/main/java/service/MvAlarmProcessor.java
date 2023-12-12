@@ -36,7 +36,7 @@ public class MvAlarmProcessor implements VarBindProcessor {
     private void setAlarmState(OidConfiguration conf, String ip, String oid, String oidMessage) {
         for (String input : conf.getInputs(ip).keySet()) {
             if (oidMessage.startsWith(input, oid.length())) {
-                ui.setAlarmState(alarmColor, conf.getInputs(ip).get(input), conf.getAlarmOids().get(oid));
+                ui.setAlarmState(ALARM_COLOR, conf.getInputs(ip).get(input), conf.getAlarmOids().get(oid));
             }
         }
     }
