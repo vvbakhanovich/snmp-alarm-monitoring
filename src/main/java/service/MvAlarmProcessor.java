@@ -8,8 +8,7 @@ import ui.AlarmWindow;
 
 import java.util.List;
 
-import static util.Constants.FAIL_STATUS;
-import static util.Constants.alarmColor;
+import static util.Constants.*;
 
 public class MvAlarmProcessor implements VarBindProcessor {
 
@@ -27,7 +26,7 @@ public class MvAlarmProcessor implements VarBindProcessor {
         String oidMessage = varBinds.get(alarmVarBind).toString();
         logger.debug("Получен OID: {}", oidMessage);
         for (String oid : conf.getAlarmOids().keySet()) {
-            if (oidMessage.contains(oid) && oidMessage.contains(FAIL_STATUS)) {
+            if (oidMessage.contains(oid) && !oidMessage.contains(OK_STATUS)) {
                 logger.debug("OID совпал с {}", oid);
                 setAlarmState(conf, ip, oid, oidMessage);
             }
