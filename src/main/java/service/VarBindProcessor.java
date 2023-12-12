@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface VarBindProcessor {
 
-    void processVarBinds(List<? extends VariableBinding> varBinds, OidConfiguration conf);
+    void processVarBinds(List<? extends VariableBinding> varBinds, OidConfiguration conf, String ip);
 }
