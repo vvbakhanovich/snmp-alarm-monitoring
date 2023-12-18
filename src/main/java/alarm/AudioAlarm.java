@@ -8,11 +8,21 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
 
+/**
+ * Реализация интерфейса Alarm. Представляет собой плеер звукового файла формата '.wav'. Для проигрывания используется
+ * библиотека javax.sound.
+ */
 public class AudioAlarm implements Alarm {
     private static final Logger log = LoggerFactory.getLogger(AudioAlarm.class);
 
     private final Clip clip;
 
+    /**
+     * Конструктор класса принимает путь, где хранится звуковой файл. Переданный путь является относительным от
+     * System.getProperty("user.dir").
+     *
+     * @param alarmPath относительный путь, по которому хранится звуковой файл
+     */
     public AudioAlarm(final String alarmPath) {
         try {
             final File alarm = new File(System.getProperty("user.dir"), alarmPath);

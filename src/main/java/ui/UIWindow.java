@@ -19,6 +19,10 @@ import java.util.Map;
 import static configuration.OidConfiguration.*;
 import static util.AlarmStatus.*;
 
+/**
+ * Класс представляет собой JFrame, состоящий из двух областей. В левой части находится JPanel с кнопками, в правой
+ * поле для отображения событий.
+ */
 public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
 
     private static final Logger log = LoggerFactory.getLogger(UIWindow.class);
@@ -29,6 +33,12 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
     private final JTextArea logArea;
     private final Map<String, JButton> buttons = new HashMap<>();
 
+    /**
+     * В конструкторе настраиваются параметры отображения пользовательского интерфейса. Количество кнопок в интерфейсе
+     * соответствует размеру списка buttonNames. Подписи на кнопках также соответствуют значениям в списке buttonNames.
+     * @param buttonNames список отображаемых имен для кнопок
+     * @param alarm реализация интерфейса Alarm
+     */
     public UIWindow(final Collection<String> buttonNames, final Alarm alarm) {
         this.alarm = alarm;
         final JPanel buttonsPanel = new JPanel();
@@ -72,15 +82,26 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
         pack();
     }
 
+    /**
+     * Метод воспроизводит звуковой сигнал, а также поджигает аварийную индикацию на соответствующей кнопке.
+     * @param buttonColor цвет кнопки для аварийного статуса
+     * @param buttonName имя кнопки
+     * @param alarmMessage сообщение ошибки
+     */
     @Override
-    public void setAlarmState(final Color color, final String buttonName, final String alarmMessage) {
+    public void setAlarmState(final Color buttonColor, final String buttonName, final String alarmMessage) {
         alarm.playAudio();
         final JButton alarmButton = buttons.get(buttonName);
-        alarmButton.setBackground(color);
+        alarmButton.setBackground(buttonColor);
         logArea.append(String.format("%s - %s на %s\n", LocalDateTime.now().format(formatter), alarmMessage, buttonName));
         log.info(alarmMessage + " на " + buttonName);
     }
 
+    /**
+     * Если кнопка находится в аварийном статусе, то при нажатии на нее останавливается воспроизведение звукового
+     * сигнала и цвет подсветки кнопки меняется на дефолтный.
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (e.getSource() instanceof JButton) {

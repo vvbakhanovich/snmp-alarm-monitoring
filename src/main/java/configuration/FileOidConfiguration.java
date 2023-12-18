@@ -8,15 +8,31 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.*;
 
+/**
+ * Класс для считывания конфигурации из файла.
+ */
 public class FileOidConfiguration implements OidConfiguration {
     private static final Logger log = LoggerFactory.getLogger(FileOidConfiguration.class);
 
+    /**
+     * В качестве ключа - ip адресс, в качестве значения - мапа, хранящая пару номер входа - имя канала.
+     */
     private final Map<String, Map<String, String>> mvInputs = new HashMap<>();
 
+    /**
+     * В качестве ключа - OID, в качестве значения - наименование ошибки.
+     */
     private final Map<String, String> alarmOids = new HashMap<>();
 
+    /**
+     * Список названий для кнопок в ui.
+     */
     private final List<String> buttonNames = new ArrayList<>();
 
+    /**
+     * При вызове конструктора происходит считывание текстового конфигурационного файла. На основе полученных данных
+     * (имена каналов) заполняется список отображаемых имен кнопок в iu.
+     */
     public FileOidConfiguration() {
         loadConfigFromFile();
         generateButtonNames();
