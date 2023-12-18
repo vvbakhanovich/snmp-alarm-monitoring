@@ -23,7 +23,7 @@ public class SnmpTrapReceiver implements CommandResponder {
     private final VarBindProcessor processor;
 
 
-    public SnmpTrapReceiver(OidConfiguration conf, VarBindProcessor processor) {
+    public SnmpTrapReceiver(final OidConfiguration conf, final VarBindProcessor processor) {
         this.conf = conf;
         this.processor = processor;
     }
@@ -38,13 +38,12 @@ public class SnmpTrapReceiver implements CommandResponder {
     }
 
     @Override
-    public void processPdu(CommandResponderEvent event) {
+    public void processPdu(final CommandResponderEvent event) {
         log.debug("Получен трап от " + event.getPeerAddress());
         for (String ip : conf.getIps()) {
             if (event.getPeerAddress().getSocketAddress().toString().contains(ip)) {
                 log.debug("Адрес совпал с " + ip);
-                List<? extends VariableBinding> varBinds = event.getPDU()
-                        .getVariableBindings();
+                final List<? extends VariableBinding> varBinds = event.getPDU().getVariableBindings();
                 if (varBinds != null && !varBinds.isEmpty()) {
                     processor.processVarBinds(varBinds, conf, ip);
                 }
@@ -54,12 +53,12 @@ public class SnmpTrapReceiver implements CommandResponder {
     }
 
     private void init() throws IOException {
-        ThreadPool threadPool = ThreadPool.create("Trap", 10);
-        MultiThreadedMessageDispatcher dispatcher = new MultiThreadedMessageDispatcher(threadPool,
+        final ThreadPool threadPool = ThreadPool.create("Trap", 10);
+        final MultiThreadedMessageDispatcher dispatcher = new MultiThreadedMessageDispatcher(threadPool,
                 new MessageDispatcherImpl());
-        Address listenAddress = GenericAddress.parse(System.getProperty(
+        final Address listenAddress = GenericAddress.parse(System.getProperty(
                 "snmp4j.listenAddress", "udp:0.0.0.0/162"));
-        TransportMapping<?> transport;
+        final TransportMapping<?> transport;
 
         if (listenAddress instanceof UdpAddress) {
             transport = new DefaultUdpTransportMapping((UdpAddress) listenAddress);

@@ -29,9 +29,9 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
     private final JTextArea logArea;
     private final Map<String, JButton> buttons = new HashMap<>();
 
-    public UIWindow(Collection<String> buttonNames, Alarm alarm) {
+    public UIWindow(final Collection<String> buttonNames, final Alarm alarm) {
         this.alarm = alarm;
-        JPanel buttonsPanel = new JPanel();
+        final JPanel buttonsPanel = new JPanel();
         buttonsPanel.setPreferredSize(new Dimension(250, 500));
         buttonsPanel.setLayout(new GridLayout(buttonNames.size(), 1, 10, 10));
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -54,7 +54,7 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
         logArea.setLineWrap(true);
         logArea.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
-        JScrollPane scrollPane = new JScrollPane(logArea);
+        final JScrollPane scrollPane = new JScrollPane(logArea);
         scrollPane.setPreferredSize(new Dimension(416, 600));
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -67,24 +67,24 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
         setVisible(true);
         setBackground(Color.LIGHT_GRAY);
         setResizable(false);
-        ImageIcon icon = new ImageIcon(CONFIG_DIR + "/icon.jpg");
+        final ImageIcon icon = new ImageIcon(CONFIG_DIR + "/icon.jpg");
         setIconImage(icon.getImage());
         pack();
     }
 
     @Override
-    public void setAlarmState(Color color, String buttonName, String alarmMessage) {
+    public void setAlarmState(final Color color, final String buttonName, final String alarmMessage) {
         alarm.playAudio();
-        JButton alarmButton = buttons.get(buttonName);
+        final JButton alarmButton = buttons.get(buttonName);
         alarmButton.setBackground(color);
         logArea.append(String.format("%s - %s на %s\n", LocalDateTime.now().format(formatter), alarmMessage, buttonName));
         log.info(alarmMessage + " на " + buttonName);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
         if (e.getSource() instanceof JButton) {
-            JButton pressedButton = (JButton) e.getSource();
+            final JButton pressedButton = (JButton) e.getSource();
             if (pressedButton.getBackground().equals(FAIL.getColor())) {
                 pressedButton.setBackground(OK.getColor());
                 alarm.stopAudio();

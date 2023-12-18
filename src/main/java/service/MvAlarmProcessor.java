@@ -23,8 +23,9 @@ public class MvAlarmProcessor implements VarBindProcessor {
     }
 
     @Override
-    public void processVarBinds(List<? extends VariableBinding> varBinds, OidConfiguration conf, String ip) {
-        String oidMessage = varBinds.get(alarmVarBind).toString();
+    public void processVarBinds(final List<? extends VariableBinding> varBinds, final OidConfiguration conf,
+                                final String ip) {
+        final String oidMessage = varBinds.get(alarmVarBind).toString();
         logger.debug("Получен OID: {}", oidMessage);
         for (String oid : conf.getAlarmOids().keySet()) {
             if (oidMessage.contains(oid) && !oidMessage.contains(OK.getName())) {
@@ -34,7 +35,7 @@ public class MvAlarmProcessor implements VarBindProcessor {
         }
     }
 
-    private void setAlarmState(OidConfiguration conf, String ip, String oid, String oidMessage) {
+    private void setAlarmState(final OidConfiguration conf, final String ip, final String oid, final String oidMessage) {
         for (String input : conf.getInputs(ip).keySet()) {
             if (oidMessage.startsWith(input, oid.length())) {
                 ui.setAlarmState(FAIL.getColor(), conf.getInputs(ip).get(input), conf.getAlarmOids().get(oid));

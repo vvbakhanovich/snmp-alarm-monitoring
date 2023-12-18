@@ -20,8 +20,9 @@ public class IQHCOAlarmProcessor implements VarBindProcessor {
     }
 
     @Override
-    public void processVarBinds(List<? extends VariableBinding> varBinds, OidConfiguration conf, String ip) {
-        String oidMessage = varBinds.get(alarmVarBind).toString();
+    public void processVarBinds(final List<? extends VariableBinding> varBinds, final OidConfiguration conf,
+                                final String ip) {
+        final String oidMessage = varBinds.get(alarmVarBind).toString();
         logger.debug("Получен OID: {}", oidMessage);
         for (String oid : conf.getAlarmOids().keySet()) {
             if (oidMessage.contains(oid)) {

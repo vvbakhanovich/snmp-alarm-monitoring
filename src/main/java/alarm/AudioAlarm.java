@@ -8,10 +8,10 @@ import java.io.File;
 public class AudioAlarm implements Alarm {
     private final Clip clip;
 
-    public AudioAlarm(String alarmPath) {
+    public AudioAlarm(final String alarmPath) {
         try {
-            File alarm = new File(System.getProperty("user.dir"), alarmPath);
-            AudioInputStream stream = AudioSystem.getAudioInputStream(alarm);
+            final File alarm = new File(System.getProperty("user.dir"), alarmPath);
+            final AudioInputStream stream = AudioSystem.getAudioInputStream(alarm);
             clip = AudioSystem.getClip();
             clip.open(stream);
         } catch (Exception e) {
