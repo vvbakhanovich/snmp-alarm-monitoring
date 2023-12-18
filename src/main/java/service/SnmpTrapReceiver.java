@@ -15,6 +15,10 @@ import org.snmp4j.util.ThreadPool;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Класс для приема и первичной обработке SNMP trap'ов. Для реализации приема SNMP trap используется библиотека snmp4j.
+ * Мониторятся все сетевые интерфейсы по порту 162.
+ */
 public class SnmpTrapReceiver implements CommandResponder {
 
     protected final Logger log = LoggerFactory.getLogger(SnmpTrapReceiver.class);
@@ -28,6 +32,9 @@ public class SnmpTrapReceiver implements CommandResponder {
         this.processor = processor;
     }
 
+    /**
+     * Метод для запуска прослушивания SNMP trap'ов на всех сетевых интерфейсах по порту 162.
+     */
     public void run() {
         try {
             init();
