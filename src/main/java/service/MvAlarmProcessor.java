@@ -5,12 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.snmp4j.smi.VariableBinding;
 import ui.AlarmWindow;
-import util.AlarmStatus;
 
 import java.util.List;
 
-import static util.AlarmStatus.*;
-import static util.Constants.*;
+import static util.AlarmStatus.FAIL;
+import static util.AlarmStatus.OK;
 
 public class MvAlarmProcessor implements VarBindProcessor {
 
