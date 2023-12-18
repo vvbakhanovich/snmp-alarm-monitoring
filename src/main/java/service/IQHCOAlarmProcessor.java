@@ -10,6 +10,9 @@ import java.util.List;
 
 import static util.AlarmStatus.FAIL;
 
+/**
+ * Обработчик трапов от Snell IQHCO51.
+ */
 public class IQHCOAlarmProcessor implements VarBindProcessor {
     private final Logger logger = LoggerFactory.getLogger(IQHCOAlarmProcessor.class);
     private final AlarmWindow ui;

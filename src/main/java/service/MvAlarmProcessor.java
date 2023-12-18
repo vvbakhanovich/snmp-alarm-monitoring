@@ -11,6 +11,9 @@ import java.util.List;
 import static util.AlarmStatus.FAIL;
 import static util.AlarmStatus.OK;
 
+/**
+ * Обработчик трапов от GrassValley MV-821.
+ */
 public class MvAlarmProcessor implements VarBindProcessor {
 
     private final Logger logger = LoggerFactory.getLogger(IQHCOAlarmProcessor.class);
