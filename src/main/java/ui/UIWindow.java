@@ -2,6 +2,7 @@ package ui;
 
 
 import alarm.Alarm;
+import configuration.OidConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.AlarmStatus;
@@ -16,6 +17,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import static configuration.OidConfiguration.*;
 import static util.AlarmStatus.*;
 import static util.Constants.*;
 

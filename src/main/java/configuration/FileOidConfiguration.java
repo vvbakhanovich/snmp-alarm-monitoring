@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.*;
 
-import static util.Constants.CONFIG_DIR;
-
 public class FileOidConfiguration implements OidConfiguration {
 
     private final Map<String, Map<String, String>> mvInputs = new HashMap<>();
@@ -40,7 +38,7 @@ public class FileOidConfiguration implements OidConfiguration {
     }
 
     private void loadConfigFromFile() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File(CONFIG_DIR,"/configuration.txt")))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(CONFIG_DIR, "/configuration.txt")))) {
             String line = reader.readLine();
             while (!line.isEmpty()) {
                 String[] alarm = line.split("=");
