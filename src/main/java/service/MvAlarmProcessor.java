@@ -5,9 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.snmp4j.smi.VariableBinding;
 import ui.AlarmWindow;
+import util.AlarmStatus;
 
 import java.util.List;
 
+import static util.AlarmStatus.*;
 import static util.Constants.*;
 
 public class MvAlarmProcessor implements VarBindProcessor {
@@ -26,7 +28,7 @@ public class MvAlarmProcessor implements VarBindProcessor {
         String oidMessage = varBinds.get(alarmVarBind).toString();
         logger.debug("Получен OID: {}", oidMessage);
         for (String oid : conf.getAlarmOids().keySet()) {
-            if (oidMessage.contains(oid) && !oidMessage.contains(OK_STATUS)) {
+            if (oidMessage.contains(oid) && !oidMessage.contains(OK.getName())) {
                 logger.debug("OID совпал с {}", oid);
                 setAlarmState(conf, ip, oid, oidMessage);
             }
@@ -36,7 +38,7 @@ public class MvAlarmProcessor implements VarBindProcessor {
     private void setAlarmState(OidConfiguration conf, String ip, String oid, String oidMessage) {
         for (String input : conf.getInputs(ip).keySet()) {
             if (oidMessage.startsWith(input, oid.length())) {
-                ui.setAlarmState(ALARM_COLOR, conf.getInputs(ip).get(input), conf.getAlarmOids().get(oid));
+                ui.setAlarmState(FAIL.getColor(), conf.getInputs(ip).get(input), conf.getAlarmOids().get(oid));
             }
         }
     }

@@ -8,7 +8,7 @@ import ui.AlarmWindow;
 
 import java.util.List;
 
-import static util.Constants.ALARM_COLOR;
+import static util.AlarmStatus.FAIL;
 
 public class IQHCOAlarmProcessor implements VarBindProcessor {
     private final Logger logger = LoggerFactory.getLogger(IQHCOAlarmProcessor.class);
@@ -28,7 +28,7 @@ public class IQHCOAlarmProcessor implements VarBindProcessor {
                 logger.debug("OID совпал с {}", oid);
                 for (String input : conf.getInputs(ip).keySet()) {
                     if (oidMessage.startsWith(input, oid.length())) {
-                        ui.setAlarmState(ALARM_COLOR, conf.getInputs(ip).get(input), conf.getAlarmOids().get(oid));
+                        ui.setAlarmState(FAIL.getColor(), conf.getInputs(ip).get(input), conf.getAlarmOids().get(oid));
                     }
                 }
             }

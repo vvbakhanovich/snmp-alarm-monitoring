@@ -4,6 +4,7 @@ package ui;
 import alarm.Alarm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import util.AlarmStatus;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import static util.AlarmStatus.*;
 import static util.Constants.*;
 
 public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
@@ -81,8 +83,8 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton) {
             JButton pressedButton = (JButton) e.getSource();
-            if (pressedButton.getBackground().equals(ALARM_COLOR)) {
-                pressedButton.setBackground(OK_COLOR);
+            if (pressedButton.getBackground().equals(FAIL.getColor())) {
+                pressedButton.setBackground(OK.getColor());
                 alarm.stopAudio();
                 logArea.append(String.format("%s - Ошибка на канале %s подтверждена\n",
                         LocalDateTime.now().format(FORMATTER), pressedButton.getText()));
