@@ -1,11 +1,15 @@
 package configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.*;
 
 public class FileOidConfiguration implements OidConfiguration {
+    private static final Logger log = LoggerFactory.getLogger(FileOidConfiguration.class);
 
     private final Map<String, Map<String, String>> mvInputs = new HashMap<>();
 
@@ -66,6 +70,7 @@ public class FileOidConfiguration implements OidConfiguration {
                 inputIp = new HashMap<>();
             }
         } catch (Exception e) {
+            log.error("Ошибка при чтении конфигурационного файла. {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
