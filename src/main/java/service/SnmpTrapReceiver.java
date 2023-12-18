@@ -33,6 +33,7 @@ public class SnmpTrapReceiver implements CommandResponder {
             init();
             snmp.addCommandResponder(this);
         } catch (Exception ex) {
+            log.error("Ошибка при запуске SnmpTrapReceiver. {}", ex.getMessage());
             throw new RuntimeException(ex);
         }
     }
