@@ -2,10 +2,8 @@ package ui;
 
 
 import alarm.Alarm;
-import configuration.OidConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.AlarmStatus;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -13,17 +11,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import static configuration.OidConfiguration.*;
 import static util.AlarmStatus.*;
-import static util.Constants.*;
 
 public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
 
     private static final Logger log = LoggerFactory.getLogger(UIWindow.class);
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     private final Alarm alarm;
     private final JTextArea logArea;
@@ -77,7 +77,7 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
         alarm.playAudio();
         JButton alarmButton = buttons.get(buttonName);
         alarmButton.setBackground(color);
-        logArea.append(String.format("%s - %s на %s\n", LocalDateTime.now().format(FORMATTER), alarmMessage, buttonName));
+        logArea.append(String.format("%s - %s на %s\n", LocalDateTime.now().format(formatter), alarmMessage, buttonName));
         log.info(alarmMessage + " на " + buttonName);
     }
 
@@ -89,7 +89,7 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
                 pressedButton.setBackground(OK.getColor());
                 alarm.stopAudio();
                 logArea.append(String.format("%s - Ошибка на канале %s подтверждена\n",
-                        LocalDateTime.now().format(FORMATTER), pressedButton.getText()));
+                        LocalDateTime.now().format(formatter), pressedButton.getText()));
                 log.info("Ошибка на канале {} подтверждена", pressedButton.getText());
             }
         }
