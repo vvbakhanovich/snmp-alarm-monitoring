@@ -23,6 +23,7 @@ public class FileOidConfiguration implements OidConfiguration {
         return alarmOids;
     }
 
+    @Override
     public List<String> getButtonNames() {
         return buttonNames;
     }
