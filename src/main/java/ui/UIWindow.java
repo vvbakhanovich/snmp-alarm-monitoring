@@ -20,13 +20,12 @@ import static configuration.OidConfiguration.*;
 import static util.AlarmStatus.*;
 
 /**
- * Класс представляет собой JFrame, состоящий из двух областей. В левой части находится JPanel с кнопками, в правой
- * поле для отображения событий.
+ * This JFrame id divided in two logical areas. Left area contains JPanel with buttons and area to the right is event
+ * log list.
  */
 public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
 
     private static final Logger log = LoggerFactory.getLogger(UIWindow.class);
-
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     private final Alarm alarm;
@@ -34,10 +33,9 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
     private final Map<String, JButton> buttons = new HashMap<>();
 
     /**
-     * В конструкторе настраиваются параметры отображения пользовательского интерфейса. Количество кнопок в интерфейсе
-     * соответствует размеру списка buttonNames. Подписи на кнопках также соответствуют значениям в списке buttonNames.
-     * @param buttonNames список отображаемых имен для кнопок
-     * @param alarm реализация интерфейса Alarm
+     * Initializes JFrame and populates it with buttons according to buttonNames.
+     * @param buttonNames list of visible names for buttons
+     * @param alarm implementation of Alarm interface for playing alarm.
      */
     public UIWindow(final Collection<String> buttonNames, final Alarm alarm) {
         this.alarm = alarm;
@@ -83,10 +81,10 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
     }
 
     /**
-     * Метод воспроизводит звуковой сигнал, а также поджигает аварийную индикацию на соответствующей кнопке.
-     * @param buttonColor цвет кнопки для аварийного статуса
-     * @param buttonName имя кнопки
-     * @param alarmMessage сообщение ошибки
+     * Play alarm and set alarm background for corresponding button
+     * @param buttonColor button background color
+     * @param buttonName button name, matches input name
+     * @param alarmMessage alarm message that should be displayed in event log area
      */
     @Override
     public void setAlarmState(final Color buttonColor, final String buttonName, final String alarmMessage) {
@@ -98,8 +96,7 @@ public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
     }
 
     /**
-     * Если кнопка находится в аварийном статусе, то при нажатии на нее останавливается воспроизведение звукового
-     * сигнала и цвет подсветки кнопки меняется на дефолтный.
+     * Stop alarm sound playback and set default (OK) button background color.
      * @param e the event to be processed
      */
     @Override

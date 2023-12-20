@@ -1,16 +1,16 @@
 package alarm;
 
 /**
- * Интерфейс звуковой сигнализации.
+ * Interface for sound alarm playback.
  */
 public interface Alarm {
     /**
-     * Метод для начала воспроизведения сигнализации.
+     * Start alarm playback
      */
     void playAudio();
 
     /**
-     * Метод остановки воспроизведения сигнализации.
+     * End alarm playback
      */
     void stopAudio();
 }

@@ -9,29 +9,28 @@ import java.io.FileReader;
 import java.util.*;
 
 /**
- * Класс для считывания конфигурации из файла.
+ * Reads configuration from file.
  */
 public class FileOidConfiguration implements OidConfiguration {
     private static final Logger log = LoggerFactory.getLogger(FileOidConfiguration.class);
 
     /**
-     * В качестве ключа - ip адресс, в качестве значения - мапа, хранящая пару номер входа - имя канала.
+     * Contains monitored device ip address as key and as value map of input number - input name of corresponding device.
      */
     private final Map<String, Map<String, String>> mvInputs = new HashMap<>();
 
     /**
-     * В качестве ключа - OID, в качестве значения - наименование ошибки.
+     * Contains OID as key and alarm message as value.
      */
     private final Map<String, String> alarmOids = new HashMap<>();
 
     /**
-     * Список названий для кнопок в ui.
+     * List of button names for the ui.
      */
     private final List<String> buttonNames = new ArrayList<>();
 
     /**
-     * При вызове конструктора происходит считывание текстового конфигурационного файла. На основе полученных данных
-     * (имена каналов) заполняется список отображаемых имен кнопок в iu.
+     * Reads configuration from file, populates according fields with values from file.
      */
     public FileOidConfiguration() {
         loadConfigFromFile();

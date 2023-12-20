@@ -16,16 +16,12 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Класс для приема и первичной обработке SNMP trap'ов. Для реализации приема SNMP trap используется библиотека snmp4j.
- * Мониторятся все сетевые интерфейсы по порту 162.
+ * Class for receiving and and processing SNMP traps. Based on org.snmp4j library.
  */
 public class SnmpTrapReceiver implements CommandResponder {
-
     protected final Logger log = LoggerFactory.getLogger(SnmpTrapReceiver.class);
-    private Snmp snmp;
     private final OidConfiguration conf;
     private final VarBindProcessor processor;
-
 
     public SnmpTrapReceiver(final OidConfiguration conf, final VarBindProcessor processor) {
         this.conf = conf;
@@ -33,18 +29,23 @@ public class SnmpTrapReceiver implements CommandResponder {
     }
 
     /**
-     * Метод для запуска прослушивания SNMP trap'ов на всех сетевых интерфейсах по порту 162.
+     * Starts listening and processing SNMP trap messages.
      */
     public void run() {
         try {
             init();
-            snmp.addCommandResponder(this);
         } catch (Exception ex) {
             log.error("Ошибка при запуске SnmpTrapReceiver. {}", ex.getMessage());
             throw new RuntimeException(ex);
         }
     }
 
+    /**
+     * Process an incoming request, report or notification PDU.
+     *
+     * @param event a CommandResponderEvent instance containing the PDU to process and some additional information
+     *              returned by the message processing model that decoded the SNMP message.
+     */
     @Override
     public void processPdu(final CommandResponderEvent event) {
         log.debug("Получен трап от " + event.getPeerAddress());
@@ -74,9 +75,10 @@ public class SnmpTrapReceiver implements CommandResponder {
             transport = new DefaultTcpTransportMapping((TcpAddress) listenAddress);
         }
 
-        snmp = new Snmp(dispatcher, transport);
+        final Snmp snmp = new Snmp(dispatcher, transport);
         snmp.getMessageDispatcher().addMessageProcessingModel(new MPv1());
         snmp.getMessageDispatcher().addMessageProcessingModel(new MPv2c());
+        snmp.addCommandResponder(this);
 
         snmp.listen();
     }

@@ -6,41 +6,32 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Интерфейс поле, содержащее путь хранения конфигурационного файла. А также:
- * -
- * - список входов, относящихся к конкретному ip адресу
- * - список ip адресов устройств, которые требуется мониторить
- * - список для именования кнопок в ui
+ * Configuration interface that must return information regarding monitored devices.
  */
 public interface OidConfiguration {
+    /**
+     * Configuration directory
+     */
     String CONFIG_DIR = new File(System.getProperty("user.dir"), "/config").toString();
 
     /**
-     * Возвращает мапу, в которой хранится пара oid - наименование ошибки.
-     *
-     * @return мапа, в которой хранится пара oid - наименование ошибки.
+     * @return map, containing OID as key and alarm message as value.
      */
     Map<String, String> getAlarmOids();
 
     /**
-     * Возвращает список мониторящихся входов и их имен для конкретного ip адреса.
-     *
-     * @param ip адрес устройства.
-     * @return список мониторящихся входов и их имен для конкретного ip адреса.
+     * @param ip ip address of monitored device
+     * @return map, containing input number as key and corresponding input name as value.
      */
     Map<String, String> getInputs(String ip);
 
     /**
-     * Возвращает сэт ip адресов устройств, которые подлежат мониторингу.
-     *
-     * @return сэт ip адресов устройств, которые подлежат мониторингу.
+     * @return set of ip addresses of the devices being monitored
      */
     Set<String> getIps();
 
     /**
-     * Возвращает список отображаемых названий для кнопок в ui.
-     *
-     * @return список отображаемых названий для кнопок в ui.
+     * @return list of buttons names for the ui.
      */
     List<String> getButtonNames();
 }
