@@ -1,8 +1,9 @@
 package configuration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,8 +12,9 @@ import java.util.*;
 /**
  * Reads configuration from file.
  */
+@Component
+@Slf4j
 public class FileOidConfiguration implements OidConfiguration {
-    private static final Logger log = LoggerFactory.getLogger(FileOidConfiguration.class);
 
     /**
      * Contains monitored device ip address as key and as value map of input number - input name of corresponding device.
@@ -32,7 +34,8 @@ public class FileOidConfiguration implements OidConfiguration {
     /**
      * Reads configuration from file, populates according fields with values from file.
      */
-    public FileOidConfiguration() {
+    @PostConstruct
+    public void init() {
         loadConfigFromFile();
         generateButtonNames();
     }
