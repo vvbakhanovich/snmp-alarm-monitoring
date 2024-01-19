@@ -2,8 +2,8 @@ package ui;
 
 
 import alarm.Alarm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -16,16 +16,18 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static configuration.OidConfiguration.*;
-import static util.AlarmStatus.*;
+import static configuration.OidConfiguration.CONFIG_DIR;
+import static util.AlarmStatus.FAIL;
+import static util.AlarmStatus.OK;
 
 /**
  * This JFrame id divided in two logical areas. Left area contains JPanel with buttons and area to the right is event
  * log list.
  */
+@Component
+@Slf4j
 public class UIWindow extends JFrame implements ActionListener, AlarmWindow {
 
-    private static final Logger log = LoggerFactory.getLogger(UIWindow.class);
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     private final Alarm alarm;
