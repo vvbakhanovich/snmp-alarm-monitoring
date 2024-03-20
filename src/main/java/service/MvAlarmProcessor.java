@@ -1,9 +1,10 @@
 package service;
 
 import configuration.OidConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.snmp4j.smi.VariableBinding;
+import org.springframework.stereotype.Service;
 import ui.AlarmWindow;
 
 import java.util.List;
@@ -12,27 +13,24 @@ import static util.AlarmStatus.FAIL;
 import static util.AlarmStatus.OK;
 
 /**
- * Обработчик трапов от GrassValley MV-821.
+ * Snmp trap processor for GrassValley MV-821.
  */
+@Service
+@Slf4j
+@RequiredArgsConstructor
 public class MvAlarmProcessor implements VarBindProcessor {
 
-    private final Logger logger = LoggerFactory.getLogger(IQHCOAlarmProcessor.class);
     private final AlarmWindow ui;
-
-    private final int alarmVarBind = 2;
-
-    public MvAlarmProcessor(AlarmWindow ui) {
-        this.ui = ui;
-    }
 
     @Override
     public void processVarBinds(final List<? extends VariableBinding> varBinds, final OidConfiguration conf,
                                 final String ip) {
+        int alarmVarBind = 2;
         final String oidMessage = varBinds.get(alarmVarBind).toString();
-        logger.debug("Получен OID: {}", oidMessage);
+        log.debug("Получен OID: {}", oidMessage);
         for (String oid : conf.getAlarmOids().keySet()) {
-            if (oidMessage.contains(oid) && !oidMessage.contains(OK.getName())) {
-                logger.debug("OID совпал с {}", oid);
+            if (oidMessage.contains(oid) && !oidMessage.contains(OK.getStatus())) {
+                log.debug("OID совпал с {}", oid);
                 setAlarmState(conf, ip, oid, oidMessage);
             }
         }

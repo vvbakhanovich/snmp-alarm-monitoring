@@ -1,8 +1,8 @@
 package service;
 
 import configuration.OidConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.snmp4j.*;
 import org.snmp4j.mp.MPv1;
 import org.snmp4j.mp.MPv2c;
@@ -11,6 +11,7 @@ import org.snmp4j.transport.DefaultTcpTransportMapping;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 import org.snmp4j.util.MultiThreadedMessageDispatcher;
 import org.snmp4j.util.ThreadPool;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,15 +19,12 @@ import java.util.List;
 /**
  * Class for receiving and and processing SNMP traps. Based on org.snmp4j library.
  */
+@Component
+@Slf4j
+@RequiredArgsConstructor
 public class SnmpTrapReceiver implements CommandResponder {
-    protected final Logger log = LoggerFactory.getLogger(SnmpTrapReceiver.class);
     private final OidConfiguration conf;
     private final VarBindProcessor processor;
-
-    public SnmpTrapReceiver(final OidConfiguration conf, final VarBindProcessor processor) {
-        this.conf = conf;
-        this.processor = processor;
-    }
 
     /**
      * Starts listening and processing SNMP trap messages.
